@@ -1,5 +1,13 @@
+# Package managers
 node_modules
 
-/.cache
+# Editor configs
+.vscode
+.DS_Store
+
+# Miscellaneous
 /build
+/public/build
+/server-build
 .env
+.cache
