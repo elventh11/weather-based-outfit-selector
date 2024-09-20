@@ -17,10 +17,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { generateOutfitByWeather } from '@/lib/ai.server';
 import { getWeatherByCoordinates } from '@/lib/open-weather.server';
-import {
-  generateOutfitImage,
-  type FalOutput,
-} from '@/lib/outfit-image-generator.server';
 import { type PlaceResult } from '@/types/google-maps';
 
 export const config = { runtime: 'edge' };
@@ -31,7 +27,7 @@ export function loader() {
 
 type ActionData =
   | { success: false; error: string }
-  | { success: true; outfitSuggestions: string; outfitImage?: FalOutput };
+  | { success: true; outfitSuggestions: string };
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
@@ -59,12 +55,11 @@ export async function action({ request }: ActionFunctionArgs) {
       JSON.stringify(weather),
     );
 
-    const outfitImage = await generateOutfitImage(outfitSuggestions);
+    console.log(outfitSuggestions);
 
     return json<ActionData>({
       success: true,
       outfitSuggestions,
-      outfitImage,
     });
   } catch (error) {
     console.error(
@@ -131,10 +126,6 @@ export default function HomePage() {
             outfitSuggestions={
               actionData?.success ? actionData.outfitSuggestions : undefined
             }
-            selectedPlace={selectedPlace?.formatted_address ?? ''}
-            generatedOutfitImage={
-              actionData?.success ? actionData.outfitImage : undefined
-            }
           />
         )}
       </div>
@@ -197,13 +188,9 @@ function SelectedPlaceCard({ place }: { place: PlaceResult }) {
 function OutfitSuggestionsCard({
   isLoading,
   outfitSuggestions,
-  generatedOutfitImage,
-  selectedPlace,
 }: {
   isLoading: boolean;
   outfitSuggestions?: string;
-  generatedOutfitImage?: FalOutput;
-  selectedPlace: string;
 }) {
   return (
     <Card className='mt-8 w-full'>
@@ -220,36 +207,11 @@ function OutfitSuggestionsCard({
             <Skeleton className='h-4 w-1/2' />
           </div>
         ) : outfitSuggestions ? (
-          <div className='flex flex-col items-center gap-y-8 p-8'>
-            <OutfitSuggestionImage
-              generatedOutfitImage={generatedOutfitImage}
-              selectedPlace={selectedPlace}
-            />
-            <div className='prose prose-blue mt-4 max-w-none'>
-              <ReactMarkdown>{outfitSuggestions}</ReactMarkdown>
-            </div>
+          <div className='prose prose-blue mt-4 max-w-none'>
+            <ReactMarkdown>{outfitSuggestions}</ReactMarkdown>
           </div>
         ) : null}
       </CardContent>
     </Card>
-  );
-}
-
-function OutfitSuggestionImage({
-  generatedOutfitImage,
-  selectedPlace,
-}: {
-  generatedOutfitImage?: FalOutput;
-  selectedPlace: string;
-}) {
-  return (
-    <div className='relative w-3/4'>
-      <img
-        key={generatedOutfitImage?.images[0]?.url}
-        src={generatedOutfitImage?.images[0]?.url}
-        alt={`Outfit Suggestion for ${selectedPlace}`}
-        className='h-auto w-full rounded-lg'
-      />
-    </div>
   );
 }

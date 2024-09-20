@@ -9,7 +9,9 @@ export const generateOutfitByWeather = async (weather: string) => {
 
   - Break down recommendations into categories: Top, Bottoms, Footwear, and Accessories.
 
-  Weather data: ${weather}`;
+  Weather data: ${weather}
+  
+  Make the output appealing when rendered as Markdown.`;
 
   // const prompt = `
   // You are a fashion expert specializing in weather-appropriate clothing recommendations. Analyze the provided weather data to generate detailed and stylish outfit suggestions. Your response should be structured in the following categories: Top, Bottoms, Footwear, and Accessories, offering alternatives where appropriate. Additionally, provide practical tips on comfort and functionality, considering temperature, humidity, wind, and cloud cover.
