@@ -203,7 +203,6 @@ function OutfitSuggestionsCard({
   generatedOutfitImage?: FalOutput;
   selectedPlace: string;
 }) {
-  console.log(outfitSuggestions);
   return (
     <Card className='mt-8 w-full'>
       <CardHeader>
