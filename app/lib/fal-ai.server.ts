@@ -40,11 +40,32 @@ export const FalOutputSchema = z.object({
 export type FalInput = z.infer<typeof FalInputSchema>;
 export type FalOutput = z.infer<typeof FalOutputSchema>;
 
-export const generateOutfitImage = async (prompt: string) => {
+export const generateOutfitImage = async (outfitSuggestion: string) => {
+  const prompt = `
+Create a high-quality, photorealistic image of a stylish outfit based on the following description:
+
+${outfitSuggestion}
+
+Image specifications:
+- Full-body shot of a mannequin or model wearing the outfit
+- Clean, well-lit studio background
+- Sharp focus on clothing details and textures
+- Accurate representation of colors and materials
+- Natural pose that showcases the entire outfit
+
+Additional details:
+- Ensure all clothing items and accessories are clearly visible
+- Pay attention to how the pieces complement each other
+- Reflect the style tip in the overall look of the outfit
+- If outerwear is mentioned, show it being worn or held by the model
+
+Do not include any text or labels in the image. The goal is to create a visually appealing and accurate representation of the described outfit.
+`;
+
   const result = await fal.subscribe<FalInput, FalOutput>(
     'fal-ai/flux/schnell',
     {
-      input: { prompt, image_size: 'square_hd' },
+      input: { prompt, image_size: 'landscape_4_3' },
       logs: true,
       onQueueUpdate: (update) => {
         if (update.status === 'IN_PROGRESS') {

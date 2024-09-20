@@ -16,11 +16,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { generateOutfitByWeather } from '@/lib/ai.server';
+import { generateOutfitImage, type FalOutput } from '@/lib/fal-ai.server';
 import { getWeatherByCoordinates } from '@/lib/open-weather.server';
-import {
-  generateOutfitImage,
-  type FalOutput,
-} from '@/lib/outfit-image-generator.server';
 import { type PlaceResult } from '@/types/google-maps';
 
 export const config = { runtime: 'edge' };
@@ -58,6 +55,8 @@ export async function action({ request }: ActionFunctionArgs) {
     const outfitSuggestions = await generateOutfitByWeather(
       JSON.stringify(weather),
     );
+
+    console.log(weather);
 
     const outfitImage = await generateOutfitImage(outfitSuggestions);
 
@@ -243,7 +242,7 @@ function OutfitSuggestionImage({
   selectedPlace: string;
 }) {
   return (
-    <div className='relative w-3/4'>
+    <div className='relative w-1/2'>
       <img
         key={generatedOutfitImage?.images[0]?.url}
         src={generatedOutfitImage?.images[0]?.url}
