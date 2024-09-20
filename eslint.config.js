@@ -1,20 +1,20 @@
-import { fixupPluginRules } from '@eslint/compat'
-import globals from 'globals'
+import { fixupPluginRules } from '@eslint/compat';
+import globals from 'globals';
 
-const ERROR = 'error'
-const WARN = 'warn'
+const ERROR = 'error';
+const WARN = 'warn';
 
 const has = (pkg) => {
   try {
-    import.meta.resolve(pkg, import.meta.url)
-    return true
+    import.meta.resolve(pkg, import.meta.url);
+    return true;
   } catch {
-    return false
+    return false;
   }
-}
+};
 
-const hasTypeScript = has('typescript')
-const hasReact = has('react')
+const hasTypeScript = has('typescript');
+const hasReact = has('react');
 
 export const config = [
   {
@@ -139,7 +139,7 @@ export const config = [
         },
       }
     : null,
-].filter(Boolean)
+].filter(Boolean);
 
 /** @type {import('eslint').Linter.Config} */
-export default [...config]
+export default [...config];

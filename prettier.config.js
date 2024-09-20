@@ -10,6 +10,6 @@ const config = {
   plugins: ['prettier-plugin-tailwindcss'],
   tailwindAttributes: ['class', 'className'],
   tailwindFunctions: ['clsx', 'cn'],
-}
+};
 
-export default config
+export default config;

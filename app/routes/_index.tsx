@@ -23,6 +23,8 @@ import {
 } from '@/lib/outfit-image-generator.server';
 import { type PlaceResult } from '@/types/google-maps';
 
+export const config = { runtime: 'edge' };
+
 export function loader() {
   return json({ GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY });
 }

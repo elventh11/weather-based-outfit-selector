@@ -1,4 +1,4 @@
-import { json, type LinksFunction } from '@remix-run/node'
+import { json, type LinksFunction } from '@remix-run/node';
 import {
   Links,
   Meta,
@@ -6,11 +6,11 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-} from '@remix-run/react'
+} from '@remix-run/react';
 
-import { getEnv } from '@/lib/env.server'
+import { getEnv } from '@/lib/env.server';
 
-import '@/styles/tailwind.css'
+import '@/styles/tailwind.css';
 
 export const links: LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -23,18 +23,18 @@ export const links: LinksFunction = () => [
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
   },
-]
+];
 
 export const loader = () => {
-  return json({ ENV: getEnv() })
-}
+  return json({ ENV: getEnv() });
+};
 
 function Layout({
   children,
   env,
 }: {
-  children: React.ReactNode
-  env?: Record<string, string>
+  children: React.ReactNode;
+  env?: Record<string, string>;
 }) {
   return (
     <html lang='en' className='h-full overflow-x-hidden'>
@@ -55,15 +55,15 @@ function Layout({
         <Scripts />
       </body>
     </html>
-  )
+  );
 }
 
 export default function App() {
-  const data = useLoaderData<typeof loader>()
+  const data = useLoaderData<typeof loader>();
 
   return (
     <Layout env={data.ENV}>
       <Outlet />
     </Layout>
-  )
+  );
 }

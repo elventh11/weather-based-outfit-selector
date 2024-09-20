@@ -41,15 +41,18 @@ export type FalInput = z.infer<typeof FalInputSchema>;
 export type FalOutput = z.infer<typeof FalOutputSchema>;
 
 export const generateOutfitImage = async (prompt: string) => {
-  const result = await fal.subscribe<FalInput, FalOutput>('fal-ai/flux/schnell', {
-    input: { prompt, image_size: 'square_hd' },
-    logs: true,
-    onQueueUpdate: (update) => {
-      if (update.status === 'IN_PROGRESS') {
-        update.logs.map((log) => log.message).forEach(console.log);
-      }
+  const result = await fal.subscribe<FalInput, FalOutput>(
+    'fal-ai/flux/schnell',
+    {
+      input: { prompt, image_size: 'square_hd' },
+      logs: true,
+      onQueueUpdate: (update) => {
+        if (update.status === 'IN_PROGRESS') {
+          update.logs.map((log) => log.message).forEach(console.log);
+        }
+      },
     },
-  });
+  );
 
   return result;
 };
